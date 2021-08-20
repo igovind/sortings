@@ -8,6 +8,8 @@ void insertion_sort(int array[]);
 void print_array(int array[]);
 void merge_sort(int array[],int start,int last);
 void merge(int array[],int temp[],int start1,int last1,int start2, int last2);
+void quick_sort(int array[],int low,int up);
+int partition(int array[],int low, int up);
 void copy(int array[],int temp[],int start1,int last2);
 
 int main(){
@@ -16,7 +18,8 @@ int main(){
     //selection_sort(array);
     //bubble_sort(array);
     //insertion_sort(array);
-    merge_sort(array,0,MAX);
+    //merge_sort(array,0,MAX);
+    quick_sort(array,0,MAX-1);
     print_array(array);
     return 0;
 }
@@ -70,7 +73,34 @@ void insertion_sort(int array[]){
     }
         print_array(array);
 }
-
+void quick_sort(int array[],int low,int up){
+    int p;
+    if(low>up)
+        return;
+    p=partition(array,low,up);
+    quick_sort(array,low,p-1);
+    quick_sort(array,p+1,up);
+}
+int partition(int array[],int low, int up){
+    int i=low+1,j=up,pivot=array[low],temp;
+    while(i<=j){
+        while(array[i]<pivot&&i<up)
+            i++;
+        while(array[j]>pivot)
+            j--;
+        if(i<j){
+            temp=array[j];
+            array[j]=array[i];
+            array[i]=temp;
+            i++;
+            j--;
+        }else
+            i++;
+    }
+    array[low]=array[j];
+    array[j]=pivot;
+    return j;
+}
 void merge_sort(int array[],int start,int last){
     int mid;
     int temp[MAX];
